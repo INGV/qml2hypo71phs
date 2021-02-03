@@ -18,7 +18,7 @@ $ docker run --rm -v $(pwd)/example:/opt/input qml2hypo71phs
 
 example:
 ```
-$ docker run --rm -v $(pwd)/example:/opt/input qml2hypo71phs --qmlin quakeml.xml
+$ docker run --rm -v $(pwd)/example:/opt/input qml2hypo71phs --qmlin /opt/input/quakeml.xml
 ```
 
 #### Docker CLI

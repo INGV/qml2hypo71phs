@@ -1,4 +1,5 @@
-FROM ubuntu:18.04
+FROM debian:buster-slim
+
 LABEL maintainer="Raffaele Di Stefano <raffaele.distefano@ingv.it>"
 ENV DEBIAN_FRONTEND=noninteractive 
 
