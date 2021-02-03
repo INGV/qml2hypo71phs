@@ -11,9 +11,14 @@ $ docker build --tag qml2hypo71phs .
 ```
 
 ### Run docker
-Run:
+to show syntax:
 ```
-$ docker run --rm -v $(pwd)/input:/opt/inout qml2hypo71phs <file>.quakeml 
+$ docker run --rm -v $(pwd)/example:/opt/input qml2hypo71phs 
+```
+
+example:
+```
+$ docker run --rm -v $(pwd)/example:/opt/input qml2hypo71phs --qmlin quakeml.xml
 ```
 
 #### Docker CLI
