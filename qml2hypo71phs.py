@@ -36,12 +36,6 @@ try:
 except:
     from obspy.core.event import readEvents as read_events
 
-def get_username():
-    hostname = socket.gethostname()
-    user = pwd.getpwuid( os.getuid() )[0]
-    elements = [user, hostname]
-    return elements
-
 class MyParser(argparse.ArgumentParser):
     def error(self, message):
         sys.stderr.write('error: %s\n' % message)
@@ -103,8 +97,8 @@ def json_data_structure():
             "provenance_name": null,
             "provenance_instance": null,
             "provenance_softwarename": self_software,
-            "provenance_username": self_user,
-            "provenance_hostname": self_host,
+            "provenance_username": null,
+            "provenance_hostname": null,
             "provenance_description": url_to_description,
             "hypocenters": []}}}
     hypocenter = {
@@ -147,8 +141,8 @@ def json_data_structure():
             "provenance_name": null,
             "provenance_instance": null,
             "provenance_softwarename": self_software,
-            "provenance_username": self_user,
-            "provenance_hostname": self_host,
+            "provenance_username": null,
+            "provenance_hostname": null,
             "provenance_description": url_to_description,
             "magnitudes": [],
             "phases": []
@@ -169,8 +163,8 @@ def json_data_structure():
               "provenance_name": null,
               "provenance_instance": null,
               "provenance_softwarename": self_software,
-              "provenance_username": self_user,
-              "provenance_hostname": self_host,
+              "provenance_username": null,
+              "provenance_hostname": null,
               "provenance_description": url_to_description,
               "amplitudes": []
             }
@@ -198,8 +192,8 @@ def json_data_structure():
                   "provenance_name": null,
                   "provenance_instance": null,
                   "provenance_softwarename": self_software,
-                  "provenance_username": self_user,
-                  "provenance_hostname": self_host,
+                  "provenance_username": null,
+                  "provenance_hostname": null,
                   "provenance_description": url_to_description
                 }
 
@@ -229,8 +223,8 @@ def json_data_structure():
               "provenance_name": "INGV",
               "provenance_instance": "BULLETIN-INGV",
               "provenance_softwarename": self_software,
-              "provenance_username": self_user,
-              "provenance_hostname": self_host,
+              "provenance_username": null,
+              "provenance_hostname": null,
               "provenance_description": url_to_description
             }
     return event,hypocenter,magnitude,amplitude,phase
@@ -410,7 +404,6 @@ def to_hypoinverse(pP,pS,a,eid,ver):
 args=parseArguments()
 
 # Getting this code name
-[self_user,self_host] = get_username()
 self_software=sys.argv[0]
 
 # If a qml input file is given, file_qml is the full or relative path_to_file
