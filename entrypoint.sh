@@ -10,10 +10,10 @@
 # Check input parameter
 if [[ -z ${@} ]]; then
         echo ""
-	/usr/bin/python3 /opt/qml2hypo71.py -h
+	/usr/bin/python3 /opt/qml2hypo71phs.py -h
         echo ""
         exit 1
 fi
 
 # run command
-/usr/bin/python3 /opt/qml2hypo71.py $@
+/usr/bin/python3 /opt/qml2hypo71phs.py $@
