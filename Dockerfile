@@ -13,7 +13,8 @@ RUN apt-get clean \
         gcc \
         build-essential \
         systemd \
-        wget
+        wget \
+        zip
 
 # Adding python3 libraries
 RUN python3 -m pip install numpy
