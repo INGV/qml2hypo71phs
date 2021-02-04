@@ -13,18 +13,18 @@ $ docker build --tag qml2hypo71phs .
 ### Run docker
 to show syntax:
 ```
-$ docker run --rm -v $(pwd)/example:/opt/input qml2hypo71phs 
+$ docker run --rm --user $(id -u):$(id -g) -v $(pwd)/example:/opt/input qml2hypo71phs 
 ```
 
 example:
 ```
-$ docker run --rm -v $(pwd)/example:/opt/input qml2hypo71phs --qmlin /opt/input/quakeml.xml
+$ docker run --rm --user $(id -u):$(id -g) -v $(pwd)/example:/opt/input qml2hypo71phs --qmlin /opt/input/quakeml.xml
 ```
 
 #### Docker CLI
 To override the `ENTRYPOINT` directive and enter into the Docker container, run:
 ```
-$ docker run --rm -it --entrypoint=bash qml2hypo71phs
+$ docker run --rm -it --user $(id -u):$(id -g) --entrypoint=bash qml2hypo71phs
 ```
 
 # Contribute
