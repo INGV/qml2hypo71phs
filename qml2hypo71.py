@@ -1,11 +1,25 @@
-# Extracting the full qml from the webservice (based on INGV at present, though other agencies are included in the list file)
-# and converting (at screen) to hypo71 standard pre y2k phase file
+##################################################################
+##################################################################
+##################################################################
+##################################################################
+### This python3 code contains the parsing part only for full qml
+### to extrant any info e put it into a json object.
+### The json object is only a facility.
+### The key features are
+### - Arguments allow to input file or eventid for webservice
+### - Arguments have defaults
+### - The extracted informations are packed into a jason object 
+###   (originally designed by Ivano Carluccio) for any further use
+###
+### This part and the input arguments can be then completed by a
+### output formatter to anything
+
+### IMPORTING LIBRARIES
 import os,argparse,subprocess,copy,pwd,socket,time
 import sys
 if sys.version_info[0] < 3:
    reload(sys)
    sys.setdefaultencoding('utf8')
-# from obspy.core.event import readEvents # this is for obspy 0.9.2
 import math
 import decimal
 import json
@@ -13,7 +27,7 @@ from xml.etree import ElementTree as ET
 from six.moves import urllib
 from datetime import datetime
 
-# the imports of Obspy are all for version 1.1
+## the imports of Obspy are all for version 1.1 and greater
 from obspy import read, UTCDateTime
 from obspy.core.event import Catalog, Event, Magnitude, Origin, Arrival, Pick
 from obspy.core.event import ResourceIdentifier, CreationInfo, WaveformStreamID
@@ -46,7 +60,7 @@ def parseArguments():
             sys.exit(1)
         args=parser.parse_args()
         return args
-# Nota: per aggiungere scelte fisse non modificabili usa hoices=["known_version_number","preferred","all"]
+# Nota: per aggiungere scelte fisse non modificabili usa choices=["known_version_number","preferred","all"]
 
 try:
     import ConfigParser as cp
@@ -80,42 +94,6 @@ class DataEncoder(json.JSONEncoder):
             return o.isoformat()
 
         return json.JSONEncoder.default(self, o)
-
-
-# Back Conversions are taken from https://gitlab.rm.ingv.it/adsdbs/seisev/blob/master/startingpoint/1_0_1/skeleton.sql#L15628 
-def weight_qml2hypo(qpu):
-    if qpu == 0.1:
-       w=0
-    elif qpu == 0.3:
-       w=1
-    elif qpu == 0.6:
-       w=2
-    elif qpu == 1.0:
-       w=3
-    elif qpu == 3.0:
-       w=4
-    elif qpu == 10.0:
-       w=8
-    return w
-
-def polarity_qml2hypo(qpp):
-    if qpp == "positive":
-       p='U'
-    elif qpp == "negative":
-       p='D'
-    elif qpp == "undecidable":
-       p=''
-    return p
-
-
-def onset_qml2hypo(qpo):
-    if qpo == "impulsive":
-       o = 'i'
-    elif qpo == "emergent":
-       o = 'e'
-    elif qpo == "questionable":
-       o = ''
-    return o
 
 def json_data_structure():
     null="null"
@@ -281,6 +259,45 @@ def getqml(event_id,bu,op):
         sys.exit(1)
     return res.read(),urltext
 
+#################### END OF QML PARSER COMMON PART ###########################
+###### FROM HERE ON ADD ON PURPOSE OUTPUT FORMATTERS #########################
+
+############# HYPO71 PHASE FILE ##############################################
+# Back Conversions are taken from https://gitlab.rm.ingv.it/adsdbs/seisev/blob/master/startingpoint/1_0_1/skeleton.sql#L15628 
+def weight_qml2hypo(qpu):
+    if qpu == 0.1:
+       w=0
+    elif qpu == 0.3:
+       w=1
+    elif qpu == 0.6:
+       w=2
+    elif qpu == 1.0:
+       w=3
+    elif qpu == 3.0:
+       w=4
+    elif qpu == 10.0:
+       w=8
+    return w
+
+def polarity_qml2hypo(qpp):
+    if qpp == "positive":
+       p='U'
+    elif qpp == "negative":
+       p='D'
+    elif qpp == "undecidable":
+       p=''
+    return p
+
+
+def onset_qml2hypo(qpo):
+    if qpo == "impulsive":
+       o = 'i'
+    elif qpo == "emergent":
+       o = 'e'
+    elif qpo == "questionable":
+       o = ''
+    return o
+
 
 def to_hypoinverse(pP,pS,a,eid,ver):
     # https://pubs.usgs.gov/of/2002/0171/pdf/of02-171.pdf
@@ -295,13 +312,19 @@ def to_hypoinverse(pP,pS,a,eid,ver):
         if p_used:
            pol=" " if v[4] == "null" or v[4] == "" else v[4]
            wei=" " if v[5] == "null" or v[5] == "" else v[5]
+           if v[8] == "null" or v[8] == "":
+              com=" "
+              cha="---"
+           else:
+              com=v[8][2] if len(v[8]) == 3 else " "
+              cha=v[8]
            Ptime="%2.2i%2.2i%2.2i%2.2i%2.2i%05.2f" % (int(str(p_tim.year)[2:4]),p_tim.month,p_tim.day,p_tim.hour,p_tim.minute,(float(p_tim.second) + float(p_tim.microsecond)/1000000.))
            if len(v[0]) == 4:
-              hi_line = v[0] + "x" + v[3] + pol + wei + v[8][2] + Ptime + hi_line[24:]
+              hi_line = v[0] + "x" + v[3] + pol + wei + com + Ptime + hi_line[24:]
            elif len(v[0]) == 5:
-              hi_line = v[0][0:4] + "x" + v[3] +  pol + wei + v[8][2] + Ptime + hi_line[24:77] + v[0][4] + hi_line[78:]
+              hi_line = v[0][0:4] + "x" + v[3] +  pol + wei + com + Ptime + hi_line[24:77] + v[0][4] + hi_line[78:]
            elif len(v[0]) == 3:
-              hi_line = v[0] + "xx" + v[3] + pol + wei + v[8][2] + Ptime + hi_line[24:]
+              hi_line = v[0] + "xx" + v[3] + pol + wei + com + Ptime + hi_line[24:]
            try:
                s_used=True if pS[k][7] == '1' else False
            except:
@@ -313,7 +336,7 @@ def to_hypoinverse(pP,pS,a,eid,ver):
               fmt = "%05.2f" if s_seconds < 100 else "%05.1f" # se i secondi della S sono maggiori di 100 per mantenere l'allineamento cambia il formato
               weis = " " if pS[k][5] == "null" or pS[k][5] == "" else pS[k][5]
               hi_line = hi_line[:31] + fmt % (s_seconds) + "x" + pS[k][3] + "x" + weis + hi_line[40:]
-           hi_line = hi_line[:78] + v[8] + v[1] + v[2] + hi_line[85:]
+           hi_line = hi_line[:78] + cha + v[1] + v[2] + hi_line[85:]
            try:
               ka_n=k + "_" + v[8][0:2] + "N"
               ka_e=k + "_" + v[8][0:2] + "E"
@@ -393,7 +416,7 @@ self_software=sys.argv[0]
 # If a qml input file is given, file_qml is the full or relative path_to_file
 if args.qmlin:
    qml_ans=args.qmlin
-   url_to_description = "Hypo71 phaase file converted from qml file " + args.qmlin.split(os.sep)[-1]
+   url_to_description = "File converted from qml file " + args.qmlin.split(os.sep)[-1]
 
 # This is the version that will be retrieved from the qml
 orig_ver=args.version
@@ -468,6 +491,10 @@ event,hypocenter,magnitude,amplitude,phase = json_data_structure()
 #print(event,hypocenter,magnitude,amplitude,phase)
 EARTH_RADIUS=6371 # Defined after eventdb setup (valentino.lauciani@ingv.it)
 DEGREE_TO_KM=111.1949 # Defined after eventdb setup (valentino.lauciani@ingv.it)
+
+
+
+########## FROM HERE THE PART OF MAIN HANDLING SPECIFICALLY TO OUTPUT HYPO71PHS
 for ev in cat:
     evdict=dict(ev)
     #for k, v in evdict.items():
