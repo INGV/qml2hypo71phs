@@ -27,8 +27,8 @@ COPY ws_agency_route.conf /opt
 COPY entrypoint.sh /opt
 
 # 
-echo "export MPLCONFIGDIR=/tmp" >> ~/.bashrc
-echo "alias ll='ls -l' >> ~/.bashrc
+RUN echo "export MPLCONFIGDIR=/tmp" >> ~/.bashrc
+RUN echo "alias ll='ls -l' >> ~/.bashrc
 
 #
 WORKDIR /opt
