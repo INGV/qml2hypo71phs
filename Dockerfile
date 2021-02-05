@@ -26,6 +26,10 @@ COPY qml2hypo71phs.py /opt
 COPY ws_agency_route.conf /opt
 COPY entrypoint.sh /opt
 
+# 
+echo "export MPLCONFIGDIR=/tmp" >> ~/.bashrc
+echo "alias ll='ls -l' >> ~/.bashrc
+
 #
 WORKDIR /opt
 ENTRYPOINT ["bash", "/opt/entrypoint.sh"]
