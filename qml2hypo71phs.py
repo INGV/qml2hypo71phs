@@ -58,9 +58,9 @@ def parseArguments():
 
 try:
     import ConfigParser as cp
-    sys.stderr.write("ConfigParser loaded\n")
+    #sys.stderr.write("ConfigParser loaded\n")
 except ImportError:
-    sys.stderr.write("configparser loaded\n")
+    #sys.stderr.write("configparser loaded\n")
     import configparser as cp
 
 # Build a dictionary from config file section
@@ -347,7 +347,8 @@ def to_hypoinverse(pP,pS,a,eid,ver):
            hi_line=hi_line.replace('x',' ')
            phs.append(hi_line)
            #hi_file_out.write(hi_line)
-    phs.append('') # Terminator line for free 1st trial location
+    if len(phs) != 0:
+       phs.append('') # Terminator line for free 1st trial location
     return phs 
     #hi_file_out.close() 
 #Start Fortran
@@ -531,6 +532,7 @@ for ev in cat:
             or_info_version = False
         # Se la versione chiesta e' la preferita vince il primo check che e' fatto sull'origin id e non sul numero di versione
         if str(orig_ver_id) == or_id or or_info_version == str(orig_ver) or str(orig_ver) == 'all' or str(orig_ver) == 'All' or str(orig_ver) == 'ALL':
+           phases_to_write=[]
            version_name=or_info_version
            version_found=True
            #print(version_found,orig_ver_id)
