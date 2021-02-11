@@ -293,7 +293,7 @@ def onset_qml2hypo(qpo):
     return o
 
 
-def to_hypoinverse(pP,pS,a,eid,ver):
+def to_hypoinverse(pP,pS,a,eid,oid,ver):
     # https://pubs.usgs.gov/of/2002/0171/pdf/of02-171.pdf
     #fout_name="./hypoinverse_phase_file_" + str(eid) + ".phs"
     #hi_file_out=open(fout_name,'w')
@@ -343,7 +343,7 @@ def to_hypoinverse(pP,pS,a,eid,ver):
            oridlen=len(str(or_id))
            verlen=len(str(ver))
            final=89+5+idlen+6+oridlen+2+verlen+1
-           hi_line=hi_line[:89] + "EVID:" + str(eid) + ",ORID:" + str(or_id) + ",V:" + str(ver) + hi_line[final:]
+           hi_line=hi_line[:89] + "EVID:" + str(eid) + ",ORID:" + str(oid) + ",V:" + str(ver) + hi_line[final:]
            hi_line=hi_line.replace('x',' ')
            phs.append(hi_line)
            #hi_file_out.write(hi_line)
@@ -532,7 +532,7 @@ for ev in cat:
             or_info_version = False
         # Se la versione chiesta e' la preferita vince il primo check che e' fatto sull'origin id e non sul numero di versione
         if str(orig_ver_id) == or_id or or_info_version == str(orig_ver) or str(orig_ver) == 'all' or str(orig_ver) == 'All' or str(orig_ver) == 'ALL':
-           phases_to_write=[]
+           or_id_to_write=or_id
            version_name=or_info_version
            version_found=True
            #print(version_found,orig_ver_id)
@@ -817,7 +817,7 @@ for ev in cat:
     if not version_found:
        sys.stderr.write("Chosen version doesnt match any origin id")
        sys.exit(202) # Il codice 202 e' stato scelto per identificare il caso in cui tutto sia corretto ma non ci sia alcuna versione come quella scelta
-    out_print=to_hypoinverse(pick_P,pick_S,amps,eid,version_name)
+    out_print=to_hypoinverse(pick_P,pick_S,amps,eid,or_id_to_write,version_name)
     for item in out_print:
         print(item)
 sys.exit(0)
