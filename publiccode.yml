@@ -1,0 +1,57 @@
+# This repository adheres to the publiccode.yml standard by including this 
+# metadata file that makes public software easily discoverable.
+# More info at https://github.com/italia/publiccode.yml
+
+publiccodeYmlVersion: '0.2'
+name: 'INGV - QuakeML to Hypo71 PHS' 
+releaseDate: '2021-02-26'
+url: 'https://github.com/INGV/qml2hypo71phs'
+logo: images/ingv_logo_text_two_lines.png
+landingURL: 'https://github.com/INGV/qml2hypo71phs'
+softwareVersion: 1.0.0
+developmentStatus: stable
+softwareType: standalone/other
+platforms:
+  - windows
+  - mac
+  - linux
+usedBy:
+  - INGV
+categories:
+  - data-analytics
+  - data-collection
+maintenance:
+  type: internal
+  contacts:
+    - name: Valentino Lauciani
+      email: valentino.lauciani@ingv.it
+legal:
+  authorsFile: AUTHORS.md 
+  repoOwner: 'Istituto Nazionale di Geofisica e Vulcanologia - INGV'
+  license: 'AGPL-3.0-or-later'
+intendedAudience:
+  scope:
+    - research
+localisation:
+  localisationReady: false
+  availableLanguages:
+    - en
+it:
+  countryExtensionVersion: '0.2'
+  riuso:
+    codiceIPA: ingv
+description:
+  en:
+    genericName: qml2hypo71phs
+    shortDescription: >-
+      Docker image to convert QuakeML format to Hypo71 PHS format.
+    documentation: 'https://github.com/INGV/qml2hypo71phs/blob/master/README.md'
+    longDescription: >
+      This project is developed to create a Docker image with a simple converter from QuakeML to Hypo71 PHS.
+
+      More info about QuakeML: https://quake.ethz.ch/quakeml/
+      More info about Hypo71 format: https://pubs.er.usgs.gov/publication/ofr72224
+
+    localisedName: 'Seismic Tools'
+    features:
+      - Seismic tools 
