@@ -1,0 +1,59 @@
+version: 2.1
+jobs:
+  start:
+    docker:
+      - image: debian:stretch
+    steps:
+      - run:
+          name: Date start
+          command: date
+  build-latest:
+    environment:
+      IMAGE_NAME: ingv/qml2hypo71phs
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build docker image
+          command: |
+            docker build --no-cache --pull --tag $IMAGE_NAME .
+  end:
+    docker:
+      - image: debian:stretch
+    steps:
+      - run:
+          name: Date end
+          command: date
+
+  test_publiccode:
+    docker:
+      - image: docker:18.06.0-ce
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          # https://github.com/italia/publiccode-parser-go
+          name: Validate publiccode file
+          command: |
+            ### CircleCI cannot mount folder: https://circleci.com/docs/2.0/building-docker-images/#mounting-folders
+            # create a dummy container which will hold a volume with config
+            docker create -v /publiccode_folder --name myfolder alpine:3.4 /bin/true
+            # copy a config file into this volume
+            docker cp publiccode.yml myfolder:/publiccode_folder
+            # start an application container using this volume
+            docker run --rm --volumes-from myfolder italia/publiccode-parser-go publiccode_folder/publiccode.yml
+
+workflows:
+  version: 2.1
+  seismictools-workflow:
+    jobs:
+      - start
+      - build-latest:
+          requires:
+            - start
+      - end:
+          requires:
+            - build-latest
+      - test_publiccode
