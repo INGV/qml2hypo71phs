@@ -49,8 +49,9 @@ description:
     longDescription: >
       This project is developed to create a Docker image with a simple converter from QuakeML to Hypo71 PHS.
 
-      More info about QuakeML: https://quake.ethz.ch/quakeml/
-      More info about Hypo71 format: https://pubs.er.usgs.gov/publication/ofr72224
+      QuakeML is a flexible, extensible and modular XML representation of seismological data which is intended to cover a broad range of fields of application in modern seismology. More info about QuakeML: https://quake.ethz.ch/quakeml/
+
+      Hypo71 is a computer program for determining hypocenter, magnitude, and first motion pattern of local earthquakes. More info about Hypo71 format: https://pubs.er.usgs.gov/publication/ofr72224
 
     localisedName: 'Seismic Tools'
     features:
