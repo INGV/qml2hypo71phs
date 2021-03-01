@@ -57,3 +57,5 @@ workflows:
           requires:
             - build-latest 
       - test-publiccode
+          requires:
+            - start
