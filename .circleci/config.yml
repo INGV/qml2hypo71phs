@@ -19,24 +19,6 @@ jobs:
           name: Build docker image
           command: |
             docker build --no-cache --pull --tag $IMAGE_NAME .
-  make-tag:
-    environment:
-      IMAGE_NAME: ingv/qml2hypo71phs
-    docker:
-      - image: circleci/buildpack-deps:stretch
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: Make automatic Tag
-          command: |
-            wget "https://gist.githubusercontent.com/OleksandrKucherenko/9fb14f81a29b46886ccd63b774c5959f/raw/47b112e113038aa59c3b3f96aa3c85a0effba583/version-up.sh"
-            chmod 755 ./version-up.sh
-            ./version-up.sh --minor
-            NEW_TAG=$( cat version.properties | grep "snapshot.version" | awk -F"=" '{print $2}' )
-            echo "NEW_TAG=${NEW_TAG}"
-            git tag ${NEW_TAG}
-            git push origin ${NEW_TAG}
   end:
     docker:
       - image: debian:stretch
@@ -71,10 +53,7 @@ workflows:
       - build-latest:
           requires:
             - start
-      - make-tag:
-          requires:
-            - build-latest
       - end:
           requires:
-            - make-tag
+            - build-latest 
       - test-publiccode
