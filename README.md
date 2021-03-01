@@ -16,7 +16,7 @@ To obtain *qml2hypo71phs* docker image, you have two options:
 #### 1) Get built image from DockerHub (*preferred*)
 Get the last built image from DockerHub repository:
 ```
-$ docker pull /ingv/qml2hypo71phs
+$ docker pull ingv/qml2hypo71phs
 ```
 
 #### 2) Build by yourself
