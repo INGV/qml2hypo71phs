@@ -4,11 +4,11 @@
 
 publiccodeYmlVersion: '0.2'
 name: 'INGV - QuakeML to Hypo71 PHS' 
-releaseDate: '2021-02-26'
+releaseDate: 2021-03-01
 url: 'https://github.com/INGV/qml2hypo71phs'
 logo: images/ingv_logo_text_two_lines.png
 landingURL: 'https://github.com/INGV/qml2hypo71phs'
-softwareVersion: 1.0.0
+softwareVersion: snapshot.version=1.1
 developmentStatus: stable
 softwareType: standalone/other
 platforms:
