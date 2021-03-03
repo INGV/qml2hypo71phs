@@ -1,7 +1,7 @@
 [![License](https://img.shields.io/github/license/INGV/qml2hypo71phs.svg)](https://github.com/INGV/qml2hypo71phs/blob/master/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/INGV/qml2hypo71phs.svg)](https://github.com/INGV/qml2hypo71phs/issues)
 
-![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/ingv/qml2hypo71phs)
+![Docker Automated build](https://img.shields.io/docker/automated/ingv/qml2hypo71phs)
 ![Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/ingv/qml2hypo71phs?sort=semver)
 ![Docker Pulls](https://img.shields.io/docker/pulls/ingv/qml2hypo71phs)
 
