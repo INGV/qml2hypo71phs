@@ -53,6 +53,6 @@ description:
 
       Hypo71 is a computer program for determining hypocenter, magnitude, and first motion pattern of local earthquakes. More info about Hypo71 format: https://pubs.er.usgs.gov/publication/ofr72224
 
-    localisedName: 'Seismic Tools'
+    localisedName: 'QuakeML to Hypo71 PHS'
     features:
-      - Seismic tools 
+      - Converter from QuakeML to Hypo71 PHS
