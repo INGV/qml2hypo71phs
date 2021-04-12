@@ -27,7 +27,7 @@ location: 84-85
 eventid,originid,originversion: 90-> free format comma separated list. These information allow to interact back with the QuakeML file.
 ```
 
-The source code has a specific usage to which the docker has its simplified interface, so the usere does not need to know it.
+The source code has a specific usage to which the docker has its simplified interface, so the user does not need to know it.
 
 Anyway, only for information completeness here it is:
 
