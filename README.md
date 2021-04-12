@@ -1,6 +1,36 @@
 # qml2hypo71phs
 
-Docker used to . . .
+The qml2hypo71phs.py code is included into the present docker.
+
+The docker is used to parse a full QuakeML (xml) file containing information on hypocenter and related arrival times picks, and convert all to hypo71 phase input file.
+
+Beyond column 78 (^) of the output file, additional information are included on each phase line about station, network and event.
+
+The following line is taken from the example output:
+ 
+VOBA P 0Z210203152652.99       55.00 S 1      40.85                           HNZIV--    EVID:26031941,ORID:86811231,V:100
+                                                                             ^
+channel: 79-81
+network: 82-83
+location: 84-85
+eventid,originid,originversion: 90-> free format comma separated list. These information allow to interact back with the QuakeML file.
+
+The source code has a specific usage to which the docker has its simplified interface, so the usere does not need to know it.
+
+Anyway, only for information completeness here it is:
+
+```
+usage: qml2hypo71phs.py [-h] [--qmlin QMLIN] [--eventid EVENTID] [--version VERSION] [--conf CONF] [--agency AGENCY]
+
+optional arguments:
+  -h, --help         show this help message and exit
+  --qmlin QMLIN      Full path to qml event file
+  --eventid EVENTID  INGV event id
+  --version VERSION  Agency coding origin version type (default: preferred) preferred,all, or an integer for known version
+                     numbers
+  --conf CONF        needed with --eventid agency webservices routes list type (default: ./ws_agency_route.conf)
+  --agency AGENCY    needed with --eventid agency to query for (see routes list in .conf file) type (default: ingv)
+```
 
 ## Quickstart
 ### Build docker
