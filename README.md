@@ -17,13 +17,15 @@ The docker is used to parse a full QuakeML (xml) file containing information on 
 Beyond column 78 (^) of the output file, additional information are included on each phase line about station, network and event.
 
 The following line is taken from the example output:
- 
+
+```
 VOBA P 0Z210203152652.99       55.00 S 1      40.85                           HNZIV--    EVID:26031941,ORID:86811231,V:100
                                                                              ^
 channel: 79-81
 network: 82-83
 location: 84-85
 eventid,originid,originversion: 90-> free format comma separated list. These information allow to interact back with the QuakeML file.
+```
 
 The source code has a specific usage to which the docker has its simplified interface, so the usere does not need to know it.
 
