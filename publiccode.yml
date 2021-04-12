@@ -1,0 +1,58 @@
+# This repository adheres to the publiccode.yml standard by including this 
+# metadata file that makes public software easily discoverable.
+# More info at https://github.com/italia/publiccode.yml
+
+publiccodeYmlVersion: '0.2'
+name: 'INGV - QuakeML to Hypo71 PHS' 
+releaseDate: '2021-04-09'
+url: 'https://github.com/INGV/qml2hypo71phs'
+logo: images/ingv_logo_text_two_lines.png
+landingURL: 'https://github.com/INGV/qml2hypo71phs'
+softwareVersion: v1.17.0
+developmentStatus: stable
+softwareType: standalone/other
+platforms:
+  - windows
+  - mac
+  - linux
+usedBy:
+  - INGV
+categories:
+  - data-analytics
+  - data-collection
+maintenance:
+  type: internal
+  contacts:
+    - name: Valentino Lauciani
+      email: valentino.lauciani@ingv.it
+legal:
+  authorsFile: AUTHORS.md 
+  repoOwner: 'Istituto Nazionale di Geofisica e Vulcanologia - INGV'
+  license: 'AGPL-3.0-or-later'
+intendedAudience:
+  scope:
+    - research
+localisation:
+  localisationReady: false
+  availableLanguages:
+    - en
+it:
+  countryExtensionVersion: '0.2'
+  riuso:
+    codiceIPA: ingv
+description:
+  en:
+    genericName: qml2hypo71phs
+    shortDescription: >-
+      Docker image to convert QuakeML format to Hypo71 PHS format.
+    documentation: 'https://github.com/INGV/qml2hypo71phs/blob/master/README.md'
+    longDescription: >
+      This project is developed to create a Docker image with a simple converter from QuakeML to Hypo71 PHS.
+
+      QuakeML is a flexible, extensible and modular XML representation of seismological data which is intended to cover a broad range of fields of application in modern seismology. More info about QuakeML: https://quake.ethz.ch/quakeml/
+
+      Hypo71 is a computer program for determining hypocenter, magnitude, and first motion pattern of local earthquakes. More info about Hypo71 format: https://pubs.er.usgs.gov/publication/ofr72224
+
+    localisedName: 'QuakeML to Hypo71 PHS'
+    features:
+      - Converter from QuakeML to Hypo71 PHS

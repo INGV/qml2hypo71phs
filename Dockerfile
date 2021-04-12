@@ -1,6 +1,6 @@
 FROM debian:buster-slim
 
-LABEL maintainer="Raffaele Di Stefano <raffaele.distefano@ingv.it>"
+LABEL maintainer="Raffaele Di Stefano <raffaele.distefano@ingv.it>, Valentino Lauciani <valentino.lauciani@ingv.it>"
 ENV DEBIAN_FRONTEND=noninteractive 
 
 # Installing all needed applications
