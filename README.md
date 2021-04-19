@@ -94,7 +94,12 @@ $ docker pull ingv/qml2hypo71phs
 ![qml2hyppo71phs](https://user-images.githubusercontent.com/16477095/115017703-34fafd80-9eb7-11eb-9dbe-1687b8f5d157.gif)
 
 ## Contribute
-Please, feel free to contribute.
+Thanks to your contributions!
+
+Here is a list of users who already contributed to this repository:
+<a href="https://github.com/ingv/qml2hypo71phs/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=ingv/qml2hypo71phs" />
+</a>
 
 ## Author
 (c) 2021 Raffaele Distefano raffaele.distefano[at]ingv.it
