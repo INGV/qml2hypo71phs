@@ -91,7 +91,7 @@ $ docker pull ingv/qml2hypo71phs
 ```
 
 ## Example
-![2021-qml2hypo71phs](https://user-images.githubusercontent.com/16477095/115366100-48fb7380-a1c5-11eb-9caf-25048e2eb128.gif)
+![2021-qml2hypo71phs](https://user-images.githubusercontent.com/16477095/115367273-5a914b00-a1c6-11eb-9dc0-922040c5eb06.gif)
 
 ## Contribute
 Thanks to your contributions!
