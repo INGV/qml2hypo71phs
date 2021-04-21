@@ -292,14 +292,27 @@ def onset_qml2hypo(qpo):
        o = ''
     return o
 
+def set_format(a,p):
+    if a < 10:
+         af="%3.1f" 
+    elif a >= 10 and a < 100:
+         af="%3.0f"
+    elif a >= 100 and a < 1000:
+         af="%3i"
+    if p < 10:
+         pf="%3.1f" 
+    elif p >= 10 and p < 100:
+         pf="%3.0f"
+    elif p >= 100 and p < 1000:
+         pf="%3i"
+    return af,pf
 
 def to_hypoinverse(pP,pS,a,eid,oid,ver):
-    # https://pubs.usgs.gov/of/2002/0171/pdf/of02-171.pdf
-    #fout_name="./hypoinverse_phase_file_" + str(eid) + ".phs"
-    #hi_file_out=open(fout_name,'w')
+    # https://pubs.usgs.gov/of/2002/0171/pdf/of02-171.pdf (page 30-31)
+    # ftp://ehzftp.wr.usgs.gov/klein/hyp1.41/hyp1.41-release-notes.pdf (updated 2015)
+    # The output format described in the above pdf is the classical hypo71 phase file implemented in hypoinverse with additional information
     phs=[]
     for k,v in pP.items():
-        #print(v)
         hi_line = "x" * 110
         p_used=True if v[7] == '1' else False
         p_tim = UTCDateTime(v[6])
@@ -327,24 +340,34 @@ def to_hypoinverse(pP,pS,a,eid,oid,ver):
            if s_used:
               s_tim = UTCDateTime(pS[k][6])
               s_seconds = float((int(s_tim.minute)-int(p_tim.minute))*60.) + float((float(s_tim.second)+float(s_tim.microsecond)/1000000.))
-              fmt = "%05.2f" if s_seconds < 100 else "%05.1f" # se i secondi della S sono maggiori di 100 per mantenere l'allineamento cambia il formato
+              fmt = "%05.2f" if s_seconds < 100 else "%05.1f" # if the S seconds are >= 100 the format is modified to keep alignment
               weis = " " if pS[k][5] == "null" or pS[k][5] == "" else pS[k][5]
               hi_line = hi_line[:31] + fmt % (s_seconds) + "x" + pS[k][3] + "x" + weis + hi_line[40:]
            hi_line = hi_line[:78] + cha + v[1] + v[2] + hi_line[85:]
            try:
               ka_n=k + "_" + v[8][0:2] + "N"
               ka_e=k + "_" + v[8][0:2] + "E"
-              hi_amp= (float(a[ka_n][3]) + float(a[ka_e][3]))/2
-              hi_per= (float(a[ka_n][4]) + float(a[ka_e][4]))/2 # first I used one of the two periods, float(a[ka_n][4]), now the mean ... is it correct?
-              hi_line = hi_line[:44] + "%3.0f" % (hi_amp) + "%3.2f" % (hi_per) + hi_line[51:]
+              # The QML INGV AML channel Amplitude is half of peak to peak while hypo71/hypoinverse/hypoellipse is peak-to-peak so ...
+              # here for clarity channel amp (here already in mm) is multiplied by 2 then the two channel peak-to-peak amps are summed 
+              # and the mean is caculated to be written in f3.0 from column 43
+              hi_amp= ((float(a[ka_n][3])*2 + float(a[ka_e][3])*2)/2) 
+              # first I used one of the two periods, float(a[ka_n][4]), now the mean ... is it correct?
+              hi_per= (float(a[ka_n][4]) + float(a[ka_e][4]))/2 
+              amp_present=True
+              fa,fp = set_format(hi_amp,hi_per)
+              hi_line = hi_line[:44] + fa % (hi_amp) + fp % (hi_per) + hi_line[50:]
            except Exception as e:
+              amp_present=False
               pass
            idlen=len(str(eid))
            oridlen=len(str(or_id))
            verlen=len(str(ver))
-           final=89+5+idlen+6+oridlen+2+verlen+1
-           hi_line=hi_line[:89] + "EVID:" + str(eid) + ",ORID:" + str(oid) + ",V:" + str(ver) + hi_line[final:]
            hi_line=hi_line.replace('x',' ')
+           hi_line=hi_line[:89] + "EVID:" + str(eid) + ",ORID:" + str(oid) + ",V:" + str(ver)
+           # For information completeness, 
+           # both the peak-to-peak channel amplitudes are reported in free format at the end of the line
+           if amp_present:
+              hi_line=hi_line + ",AN:" + str(float(a[ka_n][3])*2) + ",AE:" + str(float(a[ka_e][3])*2)
            phs.append(hi_line)
            #hi_file_out.write(hi_line)
     if len(phs) != 0:
