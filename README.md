@@ -91,10 +91,15 @@ $ docker pull ingv/qml2hypo71phs
 ```
 
 ## Example
-![video-example](https://user-images.githubusercontent.com/16477095/114191117-59e9f080-994c-11eb-8fbf-6ca84e78afb9.mp4)
+![2021-qml2hypo71phs](https://user-images.githubusercontent.com/16477095/115368317-41d56500-a1c7-11eb-8ce8-e0e5e29af105.gif)
 
 ## Contribute
-Please, feel free to contribute.
+Thanks to your contributions!
+
+Here is a list of users who already contributed to this repository:
+<a href="https://github.com/ingv/qml2hypo71phs/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=ingv/qml2hypo71phs" />
+</a>
 
 ## Author
 (c) 2021 Raffaele Distefano raffaele.distefano[at]ingv.it
