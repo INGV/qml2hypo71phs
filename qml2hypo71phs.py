@@ -350,9 +350,9 @@ def to_hypoinverse(pP,pS,a,eid,oid,ver):
               # The QML INGV AML channel Amplitude is half of peak to peak while hypo71/hypoinverse/hypoellipse is peak-to-peak so ...
               # here for clarity channel amp (here already in mm) is multiplied by 2 then the two channel peak-to-peak amps are summed 
               # and the mean is caculated to be written in f3.0 from column 43
-              hi_amp= ((float(a[ka_n][3])*2 + float(a[ka_e][3])*2)/2) 
+              hi_amp= ((float(a[ka_n][4])*2 + float(a[ka_e][4])*2)/2) 
               # first I used one of the two periods, float(a[ka_n][4]), now the mean ... is it correct?
-              hi_per= (float(a[ka_n][4]) + float(a[ka_e][4]))/2 
+              hi_per= (float(a[ka_n][5]) + float(a[ka_e][5]))/2 
               amp_present=True
               fa,fp = set_format(hi_amp,hi_per)
               hi_line = hi_line[:44] + fa % (hi_amp) + fp % (hi_per) + hi_line[50:]
@@ -366,8 +366,15 @@ def to_hypoinverse(pP,pS,a,eid,oid,ver):
            hi_line=hi_line[:89] + "EVID:" + str(eid) + ",ORID:" + str(oid) + ",V:" + str(ver)
            # For information completeness, 
            # both the peak-to-peak channel amplitudes are reported in free format at the end of the line
-           if amp_present:
-              hi_line=hi_line + ",AN:" + str(float(a[ka_n][3])*2) + ",AE:" + str(float(a[ka_e][3])*2)
+           try: 
+               all_amps=[ v for k,v in a.items() if k.startswith(ka_n[:-3])]
+           except:
+               all_amps=[]
+           if len(all_amps) > 0:
+              for la in all_amps:
+                  hi_line=hi_line + "," + str(la[3]) + ":" + str(float(la[4])*2)
+              #hi_line=hi_line + ",AN:" + str(float(a[ka_n][4])*2) + ",AE:" + str(float(a[ka_e][4])*2)
+           
            phs.append(hi_line)
            #hi_file_out.write(hi_line)
     if len(phs) != 0:
@@ -781,10 +788,10 @@ for ev in cat:
                   mm['provenance_instance'] = mag['creation_info']['author']
                   #print(mm['mag'],mm['type_magnitude'])
                   for sta_mag in evdict['station_magnitudes']:
-                      #print(sta_mag)
                       sm_or_id=str(sta_mag['origin_id']).split('=')[-1]
                       sm_am_id=str(sta_mag['amplitude_id']).split('=')[-1]
                       if sm_or_id == or_id:
+                         #print(sta_mag)
                          am = copy.deepcopy(amplitude)
                          am['type_magnitude'] = sta_mag['station_magnitude_type']
                          am['mag'] = sta_mag['mag']
@@ -822,7 +829,7 @@ for ev in cat:
                                 am['scnl_sta'] = amp['waveform_id']['station_code']
                                 am['scnl_cha'] = amp['waveform_id']['channel_code']
                                 am['scnl_loc'] = amp['waveform_id']['location_code']
-
+                                #print(am['scnl_net'],am['scnl_sta'],am['scnl_cha'])
                                 try:
                                     am['provenance_instance'] = amp['creation_info']['author']
                                 except:
@@ -833,7 +840,7 @@ for ev in cat:
                                     pass
 
                                 amps_key= str(am['scnl_net']) + "_" + str(am['scnl_sta']) + "_" + str(am['scnl_cha'])
-                                amps[str(amps_key)] = [str(am['scnl_sta']),str(am['scnl_net']),str(am['scnl_loc']),str(float(amp['generic_amplitude'])*float(a_mul)),str(amp['period'])]
+                                amps[str(amps_key)] = [str(am['scnl_sta']),str(am['scnl_net']),str(am['scnl_loc']),str(am['scnl_cha']),str(float(amp['generic_amplitude'])*float(a_mul)),str(amp['period'])]
                          mm["amplitudes"].append(am)
                   oo["magnitudes"].append(mm)
            eo["data"]["event"]["hypocenters"].append(oo) # push oggetto oo in hypocenters
