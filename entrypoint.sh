@@ -7,6 +7,9 @@
 # 
 #####################################################
 
+# Set env
+export MPLCONFIGDIR="/tmp"
+
 # Check input parameter
 if [[ -z ${@} ]]; then
         echo ""
@@ -16,5 +19,4 @@ if [[ -z ${@} ]]; then
 fi
 
 # run command
-export MPLCONFIGDIR="/tmp"
 /usr/bin/python3 /opt/qml2hypo71phs.py $@
