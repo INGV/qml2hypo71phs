@@ -258,19 +258,20 @@ def getqml(event_id,bu,op):
 
 ############# HYPO71 PHASE FILE ##############################################
 # Back Conversions are taken from https://gitlab.rm.ingv.it/adsdbs/seisev/blob/master/startingpoint/1_0_1/skeleton.sql#L15628 
-def weight_qml2hypo(qpu):
-    if qpu == 0.1:
-       w=0
-    elif qpu == 0.3:
-       w=1
-    elif qpu == 0.6:
-       w=2
-    elif qpu == 1.0:
-       w=3
-    elif qpu == 3.0:
-       w=4
-    elif qpu == 10.0:
-       w=8
+def convert_sispick_quality(q):
+    qf=float(q)
+    if qf <= 0.1:
+        w='0'
+    elif qf > 0.1 and qf <= 0.3:
+        w='1'
+    elif qf > 0.3 and qf <= 0.6:
+        w='2'
+    elif qf > 0.6 and qf <= 1.0:
+        w='3'
+    elif qf > 1.0 and qf <= 3.0:
+        w='4'
+    elif qf > 3.0:
+        w='8'
     return w
 
 def polarity_qml2hypo(qpp):
@@ -684,9 +685,11 @@ for ev in cat:
                except:
                    pass
                try:
-                   po['weight_picker'] = weight_qml2hypo(float(pick['time_errors']['uncertainty']))
+                   po['weight_picker'] = convert_sispick_quality(pick['time_errors']['uncertainty'])
                except:
-                   pass
+                   low_unc=float(pick['time_errors']['lower_uncertainty'])
+                   up_unc=float(pick['time_errors']['upper_uncertainty'])
+                   po['weight_picker'] = convert_sispick_quality((low_unc+up_unc))
                try:
                    po['firstmotion']   = polarity_qml2hypo(pick['polarity'])
                except:
