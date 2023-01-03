@@ -16,7 +16,8 @@ RUN apt-get clean \
         wget \
         zip \ 
         vim \
-        procps
+        procps \
+        bc
 
 # Adding python3 libraries
 RUN python3 -m pip install numpy
