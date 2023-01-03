@@ -15,7 +15,8 @@ RUN apt-get clean \
         systemd \
         wget \
         zip \ 
-        vim
+        vim \
+        procps
 
 # Adding python3 libraries
 RUN python3 -m pip install numpy
