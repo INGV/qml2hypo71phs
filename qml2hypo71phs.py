@@ -309,7 +309,7 @@ def set_format(a,p):
     return af,pf
 
 def to_hypoinverse(pP,pS,a,eid,oid,ver):
-    # https://pubs.usgs.gov/of/2002/0171/pdf/of02-171.pdf (page 30-31)
+    # https://escweb.wr.usgs.gov/content/software/HYPOINVERSE/doc/hyp1.40.pdf
     # ftp://ehzftp.wr.usgs.gov/klein/hyp1.41/hyp1.41-release-notes.pdf (updated 2015)
     # The output format described in the above pdf is the classical hypo71 phase file implemented in hypoinverse with additional information
     phs=[]
