@@ -27,6 +27,43 @@ location: 84-85
 eventid,originid,originversion: 90-> free format comma separated list. These information allow to interact back with the QuakeML file.
 ```
 
+Columns from 1 to 78 are described in the standard Hypo71 which manual in PDF is here [https://escweb.wr.usgs.gov/content/software/HYPOINVERSE/doc/hyp1.40.pdf]
+
+The specific Fortran Format (taken from the above linked manual) is the following:
+```
+#Start Fortran
+#Col. Len. Format Data
+#1 4 A4 4-letter station site code. Also see col 78.
+#5 2 A2 P remark such as "IP". If blank, any P time is ignored.
+#7 1 A1 P first motion such as U, D, +, -, C, D.
+#8 1 I1 Assigned P weight code.
+#9 1 A1 Optional 1-letter station component.
+#10 10 5I2 Year, month, day, hour and minute.
+#20 5 F5.2 Second of P arrival.
+#25 1 1X Presently unused.
+#26 6 6X Reserved remark field. This field is not copied to output files.
+#32 5 F5.2 Second of S arrival. The S time will be used if this field is nonblank.
+#37 2 A2, 1X S remark such as "ES".
+#40 1 I1 Assigned weight code for S.
+#41 1 A1, 3X Data source code. This is copied to the archive output.
+#45 3 F3.0 Peak-to-peak amplitude in mm on Develocorder viewer screen or paper record.
+#48 3 F3.2 Optional period in seconds of amplitude read on the seismogram. If blank, use the standard period from station file.
+#51 1 I1 Amplitude magnitude weight code. Same codes as P & S.
+#52 3 3X Amplitude magnitude remark (presently unused).
+#55 4 I4 Optional event sequence or ID number. This number may bereplaced by an ID number on the terminator line.
+#59 4 F4.1 Optional calibration factor to use for amplitude magnitudes. If blank, the standard cal factor from the station file is used.
+#63 3 A3 Optional event remark. Certain event remarks are translated into 1-letter codes to save in output.
+#66 5 F5.2 Clock correction to be added to both P and S times.
+#71 1 A1 Station seismogram remark. Unused except as a label on output.
+#72 4 F4.0 Coda duration in seconds.
+#76 1 I1 Duration magnitude weight code. Same codes as P & S.
+#77 1 1X Reserved.
+#78 1 A1 Optional 5th letter of station site code.
+#79 3 A3 Station component code.
+#82 2 A2 Station network code.
+#84-85 2 A2 2-letter station location code (component extension)
+```
+
 The source code has a specific usage to which the docker has its simplified interface, so the user does not need to know it.
 
 Anyway, only for information completeness here it is:
