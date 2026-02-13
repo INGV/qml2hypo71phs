@@ -24,7 +24,7 @@ VOBA P 0Z210203152652.99       55.00 S 1      40.85                           HN
 channel: 79-81
 network: 82-83
 location: 84-85
-eventid,originid,originversion: 90-> free format comma separated list. These information allow to interact back with the QuakeML file.
+eventid,originid,originversion,channel WA amplitudes: 90-> free format comma separated list. These information allow to interact back with the QuakeML file.
 ```
 
 Columns from 1 to 78 are described in the standard Hypo71 which manual in PDF is here [https://escweb.wr.usgs.gov/content/software/HYPOINVERSE/doc/hyp1.40.pdf]
